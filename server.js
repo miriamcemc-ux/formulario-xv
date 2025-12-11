@@ -1,65 +1,76 @@
-import express from "express";
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
+// server.js
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
+const port = process.env.PORT || 3000;
+
+// Para usar __dirname en ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Middleware
 app.use(express.json());
-app.use(express.static(".")); // Sirve index.html
+app.use(express.static(__dirname));
 
-let db;
+// Array temporal para almacenar respuestas
+let respuestas = [];
 
-// BASE DE DATOS
-(async () => {
-    db = await open({
-        filename: "respuestas.db",
-        driver: sqlite3.Database
-    });
-
-    await db.exec(`
-        CREATE TABLE IF NOT EXISTS asistencia (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre TEXT,
-            respuesta TEXT,
-            fecha TEXT
-        );
-    `);
-})();
-
-// GUARDAR RESPUESTA
-app.post("/guardar", async (req, res) => {
+// Endpoint POST /guardar
+app.post('/guardar', (req, res) => {
     const { nombre, respuesta } = req.body;
-
-    await db.run(
-        "INSERT INTO asistencia (nombre, respuesta, fecha) VALUES (?, ?, datetime('now'))",
-        [nombre, respuesta]
-    );
-
-    res.send("OK");
+    if (!nombre || !respuesta) {
+        return res.status(400).send('Faltan datos');
+    }
+    respuestas.push({ nombre, respuesta, fecha: new Date() });
+    res.send('Respuesta registrada');
 });
 
-// ADMIN
-app.get("/admin", async (req, res) => {
-    const datos = await db.all("SELECT * FROM asistencia ORDER BY fecha DESC");
-
+// Endpoint GET /respuestas
+app.get('/respuestas', (req, res) => {
     let html = `
-        <h1>Respuestas registradas</h1>
-        <table border="1" cellpadding="8" style="border-collapse: collapse;">
-        <tr><th>ID</th><th>Nombre</th><th>Respuesta</th><th>Fecha</th></tr>
-    `;
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Respuestas XV José</title>
+        <style>
+            body { font-family: Arial, sans-serif; padding: 20px; background: #fefcf5; }
+            h1 { color: #2c3e50; text-align: center; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { padding: 12px; border: 1px solid #aaa; text-align: left; }
+            th { background: #5a7399; color: white; }
+            tr:nth-child(even) { background: #f2f2f2; }
+        </style>
+    </head>
+    <body>
+        <h1>Confirmaciones de asistencia</h1>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Asistencia</th>
+                <th>Fecha</th>
+            </tr>`;
 
-    datos.forEach(r => {
+    respuestas.forEach(r => {
         html += `<tr>
-            <td>${r.id}</td>
             <td>${r.nombre}</td>
             <td>${r.respuesta}</td>
-            <td>${r.fecha}</td>
+            <td>${r.fecha.toLocaleString()}</td>
         </tr>`;
     });
 
-    html += "</table>";
+    html += `
+        </table>
+    </body>
+    </html>`;
 
     res.send(html);
 });
 
-app.listen(3000, () => console.log("Servidor en http://localhost:3000"));
-
+// Iniciar servidor
+app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
+});
