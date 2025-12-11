@@ -1,138 +1,158 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <title>XV José – Confirmación</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XV José</title>
 
-    <!-- Tipografía estilo Baskerville -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Georgia", serif;
+        background: linear-gradient(to bottom, #f7f1e3, #dbe6f0);
+        color: #333;
+        text-align: center;
+    }
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(180deg, #f3efe6, #d9dfe8); /* beige → azul suave */
-            font-family: 'Poppins', sans-serif;
-            color: #0f1a2b;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+    /* Texto superior (nombre cursiva tipo script) */
+    .nombre {
+        font-family: "Brush Script MT", "Lucida Handwriting", cursive;
+        font-size: 48px;
+        margin-top: 40px;
+        color: #2c3e50;
+    }
+
+    /* Animación XV */
+    .titulo-xv {
+        font-size: 120px;
+        font-weight: bold;
+        opacity: 0;
+        transform: translateY(-80px);
+        animation: entrada 1.5s ease-out forwards;
+        margin-top: 10px;
+    }
+
+    @keyframes entrada {
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
+    }
 
-        /* ANIMACIÓN DEL TEXTO XV */
-        .titulo-xv {
-            font-family: 'Playfair Display', serif;
-            font-size: 160px;
-            font-weight: 700;
-            opacity: 0;
-            transform: translateY(-200px);
-            animation: bajar 1.6s ease-out forwards;
-            margin-top: 40px;
-            background: linear-gradient(to bottom, #1a2942, #4a6a8a); /* azul profundo */
-            -webkit-background-clip: text;
-            color: transparent;
-        }
+    /* TARJETA DEL FORMULARIO */
+    .formulario {
+        background: white;
+        width: 90%;
+        max-width: 450px;
+        margin: 40px auto;
+        padding: 25px;
+        border-radius: 18px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        text-align: left;
+    }
 
-        @keyframes bajar {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    label {
+        font-size: 18px;
+        font-weight: bold;
+        display: block;
+        margin-top: 15px;
+    }
 
-        /* TARJETA DEL FORMULARIO */
-        .card {
-            margin-top: 20px;
-            background: rgba(255, 255, 255, 0.65); 
-            padding: 35px 40px;
-            border-radius: 18px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 90%;
-            max-width: 500px;
-            border: 1px solid rgba(0,0,0,0.08);
-        }
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #aaa;
+        border-radius: 8px;
+        margin-top: 5px;
+        font-size: 16px;
+    }
 
-        .card h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            margin-bottom: 5px;
-            color: #1d2e40;
-        }
+    /* BOTÓN ENVIAR */
+    button {
+        width: 100%;
+        margin-top: 20px;
+        background: black;
+        color: white;
+        font-size: 18px;
+        border: none;
+        padding: 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
 
-        .card p {
-            margin-top: 0;
-            font-size: 15px;
-            color: #2c3c4d;
-        }
+    button:hover {
+        background: #333;
+    }
 
-        select, button {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            border: none;
-            font-size: 16px;
-            margin-top: 15px;
-        }
+    /* BOTÓN DE WHATSAPP */
+    .whatsapp-btn {
+        display: block;
+        width: 90%;
+        max-width: 450px;
+        margin: 20px auto 40px;
+        background: #128C7E;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 18px;
+        text-decoration: none;
+        font-weight: bold;
+    }
 
-        select {
-            background: #f2f2f2;
-            color: #1d1d1d;
-            border: 1px solid #c8c8c8;
-        }
-
-        button {
-            background: #000;      /* negro */
-            color: #fff;           /* texto blanco */
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s ease;
-        }
-
-        button:hover {
-            background: #333;
-        }
-    </style>
+</style>
 </head>
-
 <body>
+
+    <div class="nombre">José Camacho</div>
 
     <div class="titulo-xv">XV</div>
 
-    <div class="card">
+    <div class="formulario">
         <h2>Confirmación de Asistencia</h2>
-        <p>Por favor selecciona tu respuesta:</p>
 
+        <label>Nombre y Apellido</label>
+        <input type="text" id="nombre" placeholder="Ej. Ana López">
+
+        <label>¿Asistirá?</label>
         <select id="respuesta">
-            <option value="">Selecciona una opción</option>
-            <option value="Asistiré">Asistiré</option>
-            <option value="No podré asistir">No podré asistir</option>
-            <option value="Tal vez">Tal vez</option>
+            <option value="Sí">Sí asistiré</option>
+            <option value="No">No podré asistir</option>
         </select>
 
         <button onclick="enviar()">Enviar</button>
     </div>
 
-    <script>
-        async function enviar() {
-            const respuesta = document.getElementById("respuesta").value;
+    <!-- BOTÓN DE WHATSAPP -->
+    <a class="whatsapp-btn"
+       href="https://api.whatsapp.com/send?phone=526141373703&text=Confirmo%20mi%20asistencia%20a%20la%20fiesta%20de%20XV%20a%C3%B1os%20de%20Jos%C3%A9.%20Gracias%20por%20la%20invitaci%C3%B3n"
+       target="_blank">
+       Confirmar en Whatsapp
+    </a>
 
-            if (!respuesta) {
-                alert("Por favor selecciona una opción.");
-                return;
-            }
+<script>
+function enviar() {
+    const nombre = document.getElementById("nombre").value.trim();
+    const respuesta = document.getElementById("respuesta").value;
 
-            const res = await fetch("/guardar", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ respuesta })
-            });
+    if (!nombre) {
+        alert("Por favor ingresa tu nombre.");
+        return;
+    }
 
-            alert(await res.text());
-        }
-    </script>
+    fetch("/guardar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, respuesta })
+    })
+    .then(res => res.text())
+    .then(msg => {
+        alert("¡Gracias! Tu respuesta fue registrada.");
+    });
+}
+</script>
 
 </body>
 </html>
