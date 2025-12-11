@@ -6,41 +6,47 @@
 <title>XV José</title>
 
 <style>
-    body {
+    /* Asegura que body y html ocupen toda la pantalla */
+    html, body {
+        height: 100%;
         margin: 0;
         padding: 0;
+    }
+
+    body {
         font-family: "Georgia", serif;
-        background: linear-gradient(to bottom, #f7f1e3, #dbe6f0);
+        background: linear-gradient(to bottom, #fefcf5, #5a7399); /* beige claro a azul navy suave */
         color: #333;
         text-align: center;
+        overflow-x: hidden;
+        position: relative;
+        min-height: 100vh; /* asegura que cubra pantalla completa */
     }
 
-    /* Texto superior (nombre cursiva tipo script) */
+    /* XV gigante fijo de fondo */
+    .titulo-xv {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 25vw; /* ocupa casi toda la pantalla horizontal */
+        font-weight: bold;
+        color: rgba(0,0,0,0.3);
+        z-index: 0;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+
+    /* Texto superior */
     .nombre {
         font-family: "Brush Script MT", "Lucida Handwriting", cursive;
-        font-size: 48px;
+        font-size: 96px; /* doble de grande */
         margin-top: 40px;
         color: #2c3e50;
+        position: relative;
+        z-index: 1;
     }
 
-    /* Animación XV */
-    .titulo-xv {
-        font-size: 120px;
-        font-weight: bold;
-        opacity: 0;
-        transform: translateY(-80px);
-        animation: entrada 1.5s ease-out forwards;
-        margin-top: 10px;
-    }
-
-    @keyframes entrada {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* TARJETA DEL FORMULARIO */
     .formulario {
         background: white;
         width: 90%;
@@ -50,6 +56,8 @@
         border-radius: 18px;
         box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         text-align: left;
+        position: relative;
+        z-index: 1;
     }
 
     label {
@@ -68,7 +76,6 @@
         font-size: 16px;
     }
 
-    /* BOTÓN ENVIAR */
     button {
         width: 100%;
         margin-top: 20px;
@@ -86,13 +93,12 @@
         background: #333;
     }
 
-    /* BOTÓN DE WHATSAPP */
     .whatsapp-btn {
         display: block;
         width: 90%;
         max-width: 450px;
         margin: 20px auto 40px;
-        background: #128C7E;
+        background: black;
         color: white;
         text-align: center;
         padding: 15px;
@@ -100,15 +106,40 @@
         font-size: 18px;
         text-decoration: none;
         font-weight: bold;
+        transition: 0.3s;
+        position: relative;
+        z-index: 1;
     }
 
+    .whatsapp-btn:hover {
+        background: #333;
+    }
+
+    /* Responsivo para "XV" y nombre */
+    @media (max-width: 1024px) {
+        .titulo-xv {
+            font-size: 40vw;
+        }
+        .nombre {
+            font-size: 72px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .titulo-xv {
+            font-size: 60vw;
+        }
+        .nombre {
+            font-size: 48px;
+        }
+    }
 </style>
 </head>
 <body>
 
-    <div class="nombre">José Camacho</div>
-
     <div class="titulo-xv">XV</div>
+
+    <div class="nombre">José Camacho</div>
 
     <div class="formulario">
         <h2>Confirmación de Asistencia</h2>
