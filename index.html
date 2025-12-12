@@ -181,6 +181,12 @@ function enviar() {
     .then(res => res.text())
     .then(msg => {
         alert("¡Gracias! Tu respuesta fue registrada.");
+        document.getElementById("nombre").value = "";
+        document.getElementById("respuesta").value = "Sí";
+    })
+    .catch(err => {
+        alert("Error al enviar. Intenta de nuevo.");
+        console.error(err);
     });
 }
 </script>
